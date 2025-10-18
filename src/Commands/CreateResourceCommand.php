@@ -227,7 +227,7 @@ class CreateResourceCommand extends Command
          */
         if ($this->confirm('Do you want to generate Api Testcase?', true)) {
 
-            $this->createApiTestCase($resource, $testsPath);
+            $this->createApiTestCase($module, $resource, $testsPath);
         }
 
         $this->info("Resource for {$resource} has been generated!");
@@ -363,10 +363,11 @@ class CreateResourceCommand extends Command
         file_put_contents("{$routesPath}/web.php", $webRoute, FILE_APPEND);
     }
 
-    public function createApiTestCase($resource, $testsPath)
+    public function createApiTestCase($module, $resource, $testsPath)
     {
         LaravelStub::from($this->coreModulePath('stubs/tests/ApiTest.stub'))
             ->replaces([
+                'module' => $module,
                 'model' => $resource,
                 'model_snake_case' => str($resource)->snake()->value(),
             ])

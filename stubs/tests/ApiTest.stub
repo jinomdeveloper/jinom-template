@@ -6,7 +6,7 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 use Illuminate\Routing\Route as RoutingRoute;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 use Modules\User\Models\User;
-use Modules\User\Models\{{ model }};
+use Modules\{{ module }}\Models\{{ model }};
 use Modules\User\Transformers\{{ model }}Resource;
 
 use function Pest\Laravel\get;
