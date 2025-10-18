@@ -1,0 +1,31 @@
+<?php
+
+namespace Modules\{{ module }}\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
+use Modules\{{ module }}\Database\Factories\{{ model }}Factory;
+
+class {{ model }} extends Model
+{
+    use HasFactory, LogsActivity;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [];
+
+    protected static function newFactory(): {{ model }}Factory
+    {
+        return {{ model }}Factory::new();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->getFillable());
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'list resource' => 'List {{ model }}',
+    'create resource' => 'Buat {{ model }}',
+    'edit resource' => 'Ubah {{ model }}',
+    'destroy resource' => 'Hapus {{ model }}',
+    'title' => [
+        '{{ model_lowercase }}' => '{{ model }}',
+        'detail {{ model_lowercase }}' => 'Detail {{ model }}',
+        'create {{ model_lowercase }}' => 'Buat {{ model }} Baru',
+        'edit {{ model_lowercase }}' => 'Ubah {{ model }}',
+    ],
+    'button' => [
+        'create {{ model_lowercase }}' => 'Buat {{ model }} Baru',
+    ],
+    'table' => [
+    ],
+    'form' => [
+    ],
+    'messages' => [
+    ],
+    'validation' => [
+    ],
+];

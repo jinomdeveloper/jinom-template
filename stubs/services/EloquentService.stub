@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
+use Modules\{{ module }}\Database\Factories\{{ model }}Factory;
+use Modules\{{ module }}\Models\{{ model }};
+use Jinom\JinomTemplate\Traits\HasResource;
+
+class {{ class }}
+{
+    use HasResource;
+
+    public function __construct()
+    {
+        $this->model = new {{ model }};
+    }
+}

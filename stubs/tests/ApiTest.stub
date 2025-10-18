@@ -1,0 +1,120 @@
+<?php
+
+uses(Tests\TestCase::class);
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
+use Illuminate\Routing\Route as RoutingRoute;
+use Modules\User\Database\Seeders\UserDatabaseSeeder;
+use Modules\User\Models\User;
+use Modules\User\Models\{{ model }};
+use Modules\User\Transformers\{{ model }}Resource;
+
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+use function Pest\Laravel\put;
+use function Pest\Laravel\delete;
+
+beforeEach(function () {
+    $this->seed(UserDatabaseSeeder::class);
+    $this->user = User::find(1);
+    $this->{{ model_snake_case }} = {{ model }}::find(1);
+    $this->headers = [
+        'Authorization' => 'Bearer ' . $this->user->createToken('testing', ['*'])->plainTextToken,
+    ];
+});
+
+it('can make routes for a {{ model_snake_case }} resource', function () {
+    $routes = collect(app('router')->getRoutes())->map(function (RoutingRoute $route) {
+        return implode('|', $route->methods()) . ' ' . $route->uri();
+    });
+
+    // The route name is customized to `our-products` in the `ProductApiService` class
+    expect($routes)->toContain('GET|HEAD api/v1/{{ model_snake_case }}s');
+    expect($routes)->toContain('POST api/v1/{{ model_snake_case }}s');
+    expect($routes)->toContain('GET|HEAD api/v1/{{ model_snake_case }}s/{{{ model_snake_case }}}');
+    expect($routes)->toContain('PUT api/v1/{{ model_snake_case }}s/{{{ model_snake_case }}}');
+    expect($routes)->toContain('DELETE api/v1/{{ model_snake_case }}s/{{{ model_snake_case }}}');
+});
+
+it('can return a list of {{ model_snake_case }}s', function () {
+
+    $response = get('api/v1/{{ model_snake_case }}s', $this->headers)
+        ->assertStatus(200);
+
+    ${{ model_snake_case }}s = {{ model }}Resource::collection({{ model }}::all())->toArray(request());
+
+    foreach (${{ model_snake_case }}s as ${{ model_snake_case }}) {
+        $response->assertJsonFragment(${{ model_snake_case }});
+    }
+});
+
+it('can create a {{ model_snake_case }}', function () {
+    $response = post('api/v1/{{ model_snake_case }}s', [
+        
+        // TODO: Replace here
+
+    ], $this->headers)
+        ->assertStatus(201);
+
+    $responseData = $response->json();
+    // The response should be an array of users
+    expect($responseData['data'])
+        ->toBeArray()
+        ->toMatchArray([
+            
+            // TODO: Replace here
+
+        ]);
+});
+
+it('can show the specified resource', function () {
+
+    $response = get("api/v1/{{ model_snake_case }}s/{$this->{{ model_snake_case }}->id}", $this->headers)
+        ->assertStatus(200);
+
+    $responseData = $response->json();
+
+    expect($responseData['data'])
+        ->toBeArray()
+        ->toMatchArray([
+            
+            // TODO: Replace here
+        ]);
+});
+
+it('can update the specified resource in storage', function () {
+
+    $response = put("api/v1/{{ model_snake_case }}s/{$this->{{ model_snake_case }}->id}", [
+        // TODO: Replace here
+    ], $this->headers)
+        ->assertStatus(200);
+
+    $responseData = $response->json();
+
+    expect($responseData['data'])
+        ->toBeArray()
+        ->toMatchArray([
+            
+            // TODO: Replace here
+
+        ]);
+});
+
+it('can remove the specified resource from storage', function () {
+    $response = post('api/v1/{{ model_snake_case }}s', [
+        // TODO: Replace here
+    ], $this->headers)
+        ->assertStatus(201);
+
+    $responseData = $response->json();
+
+    expect($responseData['data'])
+        ->toBeArray()
+        ->toMatchArray([
+            
+            // TODO: Replace here
+        ]);
+
+    $id = $responseData['data']['id'];
+    $response = delete("api/v1/{{ model_snake_case }}s/{$id}", headers: $this->headers)->assertStatus(200);
+});
