@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class {{ class }}
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    /**
+     * {{ model }} Is Creating Event.
+     */
+    public function __construct(public array $data) {}
+
+}

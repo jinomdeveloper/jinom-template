@@ -1,0 +1,85 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use {{ module_namespace }}\Events\{{ model }}\{{ model }}IsCreating;
+use {{ module_namespace }}\Events\{{ model }}\{{ model }}IsUpdating;
+use {{ module_namespace }}\Events\{{ model }}\{{ model }}WasCreated;
+use {{ module_namespace }}\Events\{{ model }}\{{ model }}WasUpdated;
+use {{ module_namespace }}\Http\Requests\{{ model }}\Create{{ model }}Request;
+use {{ module_namespace }}\Http\Requests\{{ model }}\Update{{ model }}Request;
+use {{ module_namespace }}\Services\Eloquent{{ model }}Service;
+use {{ module_namespace }}\Transformers\{{ model }}Resource;
+
+class {{ model }}Controller extends Controller
+{
+    public function __construct(
+        protected Eloquent{{ model }}Service $eloquent_{{ model_snake_case }}_service
+    ) {}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        ${{ model_snake_case }}s = $this->eloquent_{{ model_snake_case }}_service->paginate(
+            $request->get('per_page', 10),
+            $request->get('filters', []),
+            $request->get('sort', [])
+        );
+
+        return {{ model }}Resource::collection(${{ model_snake_case }}s);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Create{{ model }}Request $request)
+    {
+        event($event = new {{ model }}IsCreating($request->validated()));
+
+        ${{ model_snake_case }} = $this->eloquent_{{ model_snake_case }}_service->create($request->validated());
+
+        event(new {{ model }}WasCreated(${{ model_snake_case }}));
+
+        return $this->success(data: new {{ model }}Resource(${{ model_snake_case }}));
+    }
+
+    /**
+     * Show the specified resource.
+     */
+    public function show($id)
+    {
+        ${{ model_snake_case }} = $this->eloquent_{{ model_snake_case }}_service->find($id);
+
+        return $this->success(data: new {{ model }}Resource(${{ model_snake_case }}));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Update{{ model }}Request $request, $id)
+    {
+        ${{ model_snake_case }} = $this->eloquent_{{ model_snake_case }}_service->find($id);
+
+        event(new {{ model }}IsUpdating(${{ model_snake_case }}, $request->validated()));
+
+        ${{ model_snake_case }} = $this->eloquent_{{ model_snake_case }}_service->update($id, $request->validated());
+
+        event(new {{ model }}WasUpdated(${{ model_snake_case }}));
+
+        return $this->success(data: new {{ model }}Resource(${{ model_snake_case }}));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $this->eloquent_{{ model_snake_case }}_service->delete($id);
+
+        return $this->success();
+    }
+}
