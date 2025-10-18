@@ -2,5 +2,5 @@
 
 // config for Jinom/JinomTemplate
 return [
-    'permission_model' => 'Spatie\\Permission\\Models\\Permission'
+    'permission_model' => 'Spatie\\Permission\\Models\\Permission',
 ];

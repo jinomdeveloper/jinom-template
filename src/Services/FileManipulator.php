@@ -26,7 +26,7 @@ class FileManipulator
     /**
      * Constructor untuk kelas FileManipulator.
      *
-     * @param string $filePath Path ke file yang akan dimanipulasi.
+     * @param  string  $filePath  Path ke file yang akan dimanipulasi.
      *
      * @throws Exception Jika file tidak ditemukan atau tidak dapat dibaca.
      */
@@ -71,10 +71,10 @@ class FileManipulator
                 if (substr($existingContent, -1) !== ',') {
                     $existingContent .= ',';
                 }
-                $newContent = "\n" . $existingContent . "\n" . $dataString;
+                $newContent = "\n".$existingContent."\n".$dataString;
             }
 
-            return $before . "\n \t\t\t" . $newContent . $after;
+            return $before."\n \t\t\t".$newContent.$after;
         };
 
         // Lakukan penggantian menggunakan callback
@@ -107,11 +107,11 @@ class FileManipulator
         $rulesString = '';
         $indentation = '            '; // 12 spasi untuk indentasi di dalam array
         foreach ($rules as $field => $rule) {
-            $rulesString .= "\n" . $indentation . "'{$field}' => '{$rule}',";
+            $rulesString .= "\n".$indentation."'{$field}' => '{$rule}',";
         }
 
         // Menghapus koma terakhir jika ada dan menambahkan baris baru
-        return rtrim(trim($rulesString), ',') . "\n        ";
+        return rtrim(trim($rulesString), ',')."\n        ";
     }
 
     public function generateValidationRulesByColumnsScheme(array $schemaArray): array
@@ -169,7 +169,7 @@ class FileManipulator
             // Aturan berdasarkan Panjang Maksimal (untuk varchar, char)
             if (preg_match('/\((\d+)\)/', $column['type'], $matches)) {
                 $maxLength = $matches[1];
-                $rules[] = 'max:' . $maxLength;
+                $rules[] = 'max:'.$maxLength;
             }
 
             // Aturan Khusus berdasarkan Nama Kolom (common conventions)

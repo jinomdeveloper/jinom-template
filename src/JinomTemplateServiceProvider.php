@@ -16,7 +16,7 @@ class JinomTemplateServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasCommands([
                 CreateResourceCommand::class,
-                SyncPermission::class
+                SyncPermission::class,
             ]);
     }
 }

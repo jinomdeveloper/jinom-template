@@ -14,22 +14,22 @@ trait HasResource
     /**
      * Retrieve all records for the authenticated user, with optional search.
      *
-     * @param array $search Search options.
+     * @param  array  $search  Search options.
      * @return Collection The collection of records.
      */
     public function all(array $search = []): Collection
     {
         return $this->model
             ->when(isset($search['fields']) && isset($search['value']), function (Builder $query) use ($search) {
-                $sql = "";
+                $sql = '';
                 for ($i = 0; $i < count($search['fields']); $i++) {
                     if ($i > 0) {
                         $sql .= ' OR ';
                     }
-                    $sql .= $search['fields'][$i] . ' LIKE ?';
+                    $sql .= $search['fields'][$i].' LIKE ?';
                 }
 
-                $query->whereRaw("($sql)", array_fill(0, count($search['fields']), '%' . $search['value'] . '%'));
+                $query->whereRaw("($sql)", array_fill(0, count($search['fields']), '%'.$search['value'].'%'));
             })
             ->orderBy('created_at', 'desc')
             ->get();
@@ -46,7 +46,7 @@ trait HasResource
             ->when(empty($sort), function (Builder $query) {
                 return $query->orderBy('created_at', 'desc');
             })
-            ->when(!empty($sort), function (Builder $query) use ($sort) {
+            ->when(! empty($sort), function (Builder $query) use ($sort) {
                 return $query->orderBy($sort['column'], $sort['direction']);
             });
     }
@@ -54,9 +54,9 @@ trait HasResource
     /**
      * Paginate records for the authenticated user, with optional search and sorting.
      *
-     * @param int $perPage Number of records per page.
-     * @param array $search Search options.
-     * @param array $sort Sort options.
+     * @param  int  $perPage  Number of records per page.
+     * @param  array  $search  Search options.
+     * @param  array  $sort  Sort options.
      * @return LengthAwarePaginator Paginated result set.
      */
     public function paginate(int $perPage = 15, $filters = [], array $sort = []): LengthAwarePaginator
@@ -73,7 +73,7 @@ trait HasResource
     /**
      * Find a record by ID for the authenticated user.
      *
-     * @param int $id The record ID.
+     * @param  int  $id  The record ID.
      * @return Model|null The found model or null.
      */
     public function find(int $id): ?Model
@@ -84,8 +84,8 @@ trait HasResource
     /**
      * Find a record by a specific field and value.
      *
-     * @param string $field The field name.
-     * @param mixed $value The value to search for.
+     * @param  string  $field  The field name.
+     * @param  mixed  $value  The value to search for.
      * @return Model|null The found model or null.
      */
     public function findBy(string $field, mixed $value): ?Model
@@ -96,8 +96,8 @@ trait HasResource
     /**
      * Get records by a specific field and value.
      *
-     * @param string $field The field name.
-     * @param mixed $value The value to search for.
+     * @param  string  $field  The field name.
+     * @param  mixed  $value  The value to search for.
      * @return Collection The collection of records.
      */
     public function getBy(string $field, mixed $value): Collection
@@ -108,7 +108,7 @@ trait HasResource
     /**
      * Create a new record with the given data.
      *
-     * @param array $data The data for the new record.
+     * @param  array  $data  The data for the new record.
      * @return Model The created model.
      */
     public function create(array $data): Model
@@ -119,8 +119,8 @@ trait HasResource
     /**
      * Update a record by ID with the given data.
      *
-     * @param int $id The record ID.
-     * @param array $data The data to update.
+     * @param  int  $id  The record ID.
+     * @param  array  $data  The data to update.
      * @return Model|null The updated model or null.
      */
     public function update($id, array $data): ?Model
@@ -128,15 +128,17 @@ trait HasResource
         $model = $this->model::find($id);
         if ($model) {
             $model->update($data);
+
             return $model;
         }
+
         return null;
     }
 
     /**
      * Delete a record by ID.
      *
-     * @param int $id The record ID.
+     * @param  int  $id  The record ID.
      * @return bool True if deleted, false otherwise.
      */
     public function delete($id): bool
@@ -144,8 +146,10 @@ trait HasResource
         $model = $this->model->find($id);
         if ($model) {
             $model->delete();
+
             return true;
         }
+
         return false;
     }
 

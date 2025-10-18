@@ -3,7 +3,6 @@
 namespace Jinom\JinomTemplate\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Jinom\JinomTemplate\Services\PermissionManager;
 
 class SyncPermission extends Command
@@ -29,7 +28,8 @@ class SyncPermission extends Command
     /**
      * Execute the console command.
      */
-    public function handle() {
+    public function handle()
+    {
         $permissionManager = new PermissionManager;
 
         $modules = $permissionManager->all();

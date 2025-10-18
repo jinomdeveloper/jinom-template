@@ -31,7 +31,7 @@ class PermissionManager
     {
         $permissions = [];
         foreach ($this->module->allEnabled() as $enabledModule) {
-            $configuration = config(strtolower($enabledModule->getName()) . '.permissions');
+            $configuration = config(strtolower($enabledModule->getName()).'.permissions');
             if ($configuration) {
                 $permissions[$enabledModule->getName()] = $configuration;
             }
@@ -62,7 +62,7 @@ class PermissionManager
         foreach ($permissionsConfig as $mainKey => $subPermissions) {
             foreach ($subPermissions as $key => $permissionGroup) {
                 foreach ($permissionGroup as $lastKey => $description) {
-                    $list[strtolower("$key") . '.' . $lastKey] = static::current_permission_value_for_roles($model, strtolower("$key"), $lastKey, $default);
+                    $list[strtolower("$key").'.'.$lastKey] = static::current_permission_value_for_roles($model, strtolower("$key"), $lastKey, $default);
                 }
             }
         }
@@ -132,7 +132,7 @@ class PermissionManager
     /**
      * Are all of the permissions passed of false value?
      *
-     * @param  array $permissions Permissions array
+     * @param  array  $permissions  Permissions array
      * @return bool
      */
     public function permissionsAreAllFalse(array $permissions)

@@ -47,8 +47,7 @@ class CreateResourceCommand extends Command
         $module = $this->argument('module');
 
         if (! $moduleClass = Module::find($module)) {
-            throw new Exception("Module not found", 1);
-            
+            throw new Exception('Module not found', 1);
         }
 
         /**
@@ -170,7 +169,7 @@ class CreateResourceCommand extends Command
                     ->to($eventPath)
                     ->generate();
 
-                $listenPropertyValue[$eventNamespace . '\\' . $eventName = str($event)->replace('Event', $resource)->value()] = [];
+                $listenPropertyValue[$eventNamespace.'\\'.$eventName = str($event)->replace('Event', $resource)->value()] = [];
             }
 
             $file = new PhpFile;
@@ -221,7 +220,7 @@ class CreateResourceCommand extends Command
          * Register to api routes
          */
         if ($this->confirm('Do you want to register a api route?', true)) {
-            $this->registerToApiRoutes($module, $resource, $routesPath, $apiControllerNamespace . '\\' . $controllerName);
+            $this->registerToApiRoutes($module, $resource, $routesPath, $apiControllerNamespace.'\\'.$controllerName);
         }
         /**
          * Create TestCase
@@ -280,7 +279,7 @@ class CreateResourceCommand extends Command
 
         // Cek apakah direktorinya ada, jika tidak, buat secara rekursif.
         // Parameter ketiga `true` sangat penting agar bisa membuat folder bersarang.
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0775, true);
         }
 
@@ -308,9 +307,6 @@ class CreateResourceCommand extends Command
                 'destroy' => "{$module}::{$model}.destroy resource",
             ],
         ];
-
-        
-
 
         // Merge with existing permissions
         $permissions = array_merge($permissions, $newPermissions);
@@ -362,7 +358,6 @@ class CreateResourceCommand extends Command
 
         file_put_contents("{$routesPath}/api.php", $text, FILE_APPEND);
 
-
         $webRoute = "\nRoute::get('/{$module}s/{$resourceLowercase}s', function () {\n\treturn view('app');\n})->name('$module.{$resourceLowercase}.index');";
 
         file_put_contents("{$routesPath}/web.php", $webRoute, FILE_APPEND);
@@ -377,13 +372,13 @@ class CreateResourceCommand extends Command
             ])
             ->name("Api{$resource}Test")
             ->ext('php')
-            ->to($testsPath . '/Feature')
+            ->to($testsPath.'/Feature')
             ->generate();
     }
 
     public function createModel($module, $resource, $modelNamespace, $modelsPath)
     {
-        $newModelPath = $modelsPath . '/' . $resource . '.php';
+        $newModelPath = $modelsPath.'/'.$resource.'.php';
 
         LaravelStub::from($this->coreModulePath('stubs/model/model.stub'))
             ->replaces([
@@ -433,7 +428,7 @@ class CreateResourceCommand extends Command
             ]);
 
             if ($this->option('table')) {
-                $file_manipulator = new FileManipulator($requestsPath . '/' . $request . '.php');
+                $file_manipulator = new FileManipulator($requestsPath.'/'.$request.'.php');
 
                 $columns = Schema::getColumns(app($modelNamespace)->getTable());
 

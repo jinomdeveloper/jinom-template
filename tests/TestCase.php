@@ -3,8 +3,8 @@
 namespace Jinom\JinomTemplate\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Jinom\JinomTemplate\JinomTemplateServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
